@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <errno.h>
+#include <nan.h>
 
 using namespace v8;
 using namespace node;
@@ -26,7 +27,9 @@ void Waitpid(const FunctionCallbackInfo<Value>& args) {
     }
 
     // do the waitpid call
-    r = waitpid(args[0]->NumberValue(), &status, args[1]->NumberValue());
+    r = waitpid(args[0]->NumberValue(Nan::GetCurrentContext()).FromJust(),
+                &status,
+                args[1]->NumberValue(Nan::GetCurrentContext()).FromJust());
 
     // return an object
     Local<Object> result = Object::New(isolate);
