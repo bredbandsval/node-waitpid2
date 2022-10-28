@@ -52,6 +52,8 @@ void Waitpid(const FunctionCallbackInfo<Value>& args) {
 void init(Local<Object> exports) {
     Isolate* isolate = exports->GetIsolate();
 
+    Maybe<bool> ret; // should perhaps check the return values to be sure
+
     NODE_SET_METHOD(exports, "waitpid", Waitpid);
     // expose the option constants
     ret = exports->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "WNOHANG").ToLocalChecked(), Number::New(isolate, WNOHANG));
