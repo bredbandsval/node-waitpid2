@@ -12,8 +12,6 @@ using namespace node;
 void Waitpid(const FunctionCallbackInfo<Value>& args) {
     Isolate* isolate = args.GetIsolate();
 
-    Maybe<bool> ret; // should perhaps check the return values to be sure
-
     int r, status;
 
     // check arguments
@@ -36,14 +34,14 @@ void Waitpid(const FunctionCallbackInfo<Value>& args) {
     // return an object
     Local<Object> result = Object::New(isolate);
 
-    ret = result->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "return").ToLocalChecked(), Number::New(isolate, r));
+    result->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "return").ToLocalChecked(), Number::New(isolate, r));
 
     if (WIFEXITED(status)) {
-        ret = result->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "exitCode").ToLocalChecked(), Number::New(isolate, WEXITSTATUS(status)));
-        ret = result->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "signalCode").ToLocalChecked(), Null(isolate));
+        result->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "exitCode").ToLocalChecked(), Number::New(isolate, WEXITSTATUS(status)));
+        result->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "signalCode").ToLocalChecked(), Null(isolate));
     } else if (WIFSIGNALED(status)) {
-        ret = result->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "exitCode").ToLocalChecked(), Null(isolate));
-        ret = result->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "signalCode").ToLocalChecked(), Number::New(isolate, WTERMSIG(status)));
+        result->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "exitCode").ToLocalChecked(), Null(isolate));
+        result->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "signalCode").ToLocalChecked(), Number::New(isolate, WTERMSIG(status)));
     }
 
     args.GetReturnValue().Set(result);
@@ -52,13 +50,11 @@ void Waitpid(const FunctionCallbackInfo<Value>& args) {
 void init(Local<Object> exports) {
     Isolate* isolate = exports->GetIsolate();
 
-    Maybe<bool> ret; // should perhaps check the return values to be sure
-
     NODE_SET_METHOD(exports, "waitpid", Waitpid);
     // expose the option constants
-    ret = exports->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "WNOHANG").ToLocalChecked(), Number::New(isolate, WNOHANG));
-    ret = exports->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "WUNTRACED").ToLocalChecked(), Number::New(isolate, WUNTRACED));
-    ret = exports->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "WCONTINUED").ToLocalChecked(), Number::New(isolate, WCONTINUED));
+    exports->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "WNOHANG").ToLocalChecked(), Number::New(isolate, WNOHANG));
+    exports->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "WUNTRACED").ToLocalChecked(), Number::New(isolate, WUNTRACED));
+    exports->Set(isolate->GetCurrentContext(), String::NewFromUtf8(isolate, "WCONTINUED").ToLocalChecked(), Number::New(isolate, WCONTINUED));
 }
 
 NODE_MODULE(waitpid2, init)
