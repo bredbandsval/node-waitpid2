@@ -15,11 +15,11 @@
   "license": "MIT",
   "gypfile": true,
   "dependencies": {
-    "nan": "^2.14.0",
-    "node-pre-gyp": "^0.6.33"
+    "nan": "^2.16.0",
+    "node-pre-gyp": "^0.17.0"
   },
   "devDependencies": {
-    "node-pre-gyp-github": "^1.3.1"
+    "node-pre-gyp-github": "^1.4.4"
   },
   "bundledDependencies": [
     "node-pre-gyp"
@@ -33,5 +33,8 @@
     "module_path": "./lib/binding/",
     "host": "https://github.com/joshiggins/node-waitpid2/releases/download/",
     "remote_path": "{version}"
-  }
+  },
+  "bundleDependencies": [
+    "node-pre-gyp"
+  ]
 }
