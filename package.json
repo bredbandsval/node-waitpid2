@@ -5,36 +5,17 @@
   "main": "lib/waitpid.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/joshiggins/node-waitpid2.git"
+    "url": "https://github.com/bredbandsval/node-waitpid2.git"
   },
   "keywords": [
     "waitpid",
     "child process"
   ],
-  "author": "joshiggins",
+  "author": "joshiggins + bredbandsval",
   "license": "MIT",
   "gypfile": true,
   "dependencies": {
     "nan": "^2.17.0",
-    "node-pre-gyp": "^0.17.0"
-  },
-  "devDependencies": {
-    "node-pre-gyp-github": "^1.4.4"
-  },
-  "bundledDependencies": [
-    "node-pre-gyp"
-  ],
-  "scripts": {
-    "prepublish": "npm ls",
-    "install": "node-pre-gyp install --fallback-to-build"
-  },
-  "binary": {
-    "module_name": "waitpid",
-    "module_path": "./lib/binding/",
-    "host": "https://github.com/joshiggins/node-waitpid2/releases/download/",
-    "remote_path": "{version}"
-  },
-  "bundleDependencies": [
-    "node-pre-gyp"
-  ]
+    "node-gyp": "^9.3.1"
+  }
 }
